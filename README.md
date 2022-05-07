@@ -1,5 +1,5 @@
 # STL-tech-companies-REST-API
-A REST API for accessing data on the 100 fasting growing tech companies in St. Louis
+A REST API for accessing data on the 100 fastest growing tech companies in St. Louis
 
 ## Initial Setup
 Before running, a PostgreSQL server must be setup locally, as there is not a remote server active at this time. The local server must contain a database called "tech_companies" (or you can call it whatever you want, as long as the DB_NAME field in the .env file is changed to reflect the database name).
