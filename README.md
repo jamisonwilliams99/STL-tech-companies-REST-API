@@ -33,5 +33,7 @@ The base address for the API is as follows:
 
 **Get a full list of every company record in the database (GET)**:
   http://*localhost IP*:8080/api/tech_companies
+  
+**NOTE**: "localhost IP" should be replaced by the localhost port IP address of your machine (it is likely 127.0.0.1, but could be different). The Fiber success message once the main.go file is ran will display the correct one.
 
 
