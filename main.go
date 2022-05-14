@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -24,6 +23,7 @@ type Company struct {
 }
 
 // struct wrapping the gorm database interface
+// - used to interface with the API context handler functions
 type Repository struct {
 	DB *gorm.DB
 }
@@ -109,8 +109,6 @@ func (r *Repository) GetCompanyByID(context *fiber.Ctx) error {
 		return nil
 	}
 
-	fmt.Println("the ID is ", id)
-
 	err := r.DB.Where("id = ?", id).First(companyModel).Error
 
 	if err != nil {
@@ -136,13 +134,14 @@ func (r *Repository) SetupRoutes(app *fiber.App) {
 }
 
 func main() {
-	err := godotenv.Load(".env")
+	err := godotenv.Load(".env") // load environment variables from .env file
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// populate database config struct
+	// load data base configuration struct with environment variables
+	// from the .env file
 	config := &storage.Config{
 		Host:     os.Getenv("DB_HOST"),
 		Port:     os.Getenv("DB_PORT"),
@@ -158,18 +157,20 @@ func main() {
 		log.Fatal("could not load the database")
 	}
 
-	err = models.MigrateCompanies(db)
+	err = models.MigrateCompanies(db) // populate database instance with fields to match Company struct
 
 	if err != nil {
 		log.Fatal("could not load the database")
 	}
 
+	// initialize Repository instance to interface with api context handler functions
+	// with the database
 	r := Repository{
 		DB: db,
 	}
 
-	app := fiber.New()
-	r.SetupRoutes(app)
-	app.Listen(":8080")
+	app := fiber.New()  // initialize fiber instance
+	r.SetupRoutes(app)  // maps context handler functions to the api paths
+	app.Listen(":8080") // configure fiber instance to operate on port 8080
 
 }

@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+// struct containing enviroment variables pulled from the .env file
+// used to initialize a gorm database instance
 type Config struct {
 	Host     string
 	Port     string
@@ -16,6 +18,7 @@ type Config struct {
 	SSLMode  string
 }
 
+// initializes and opens a gorm database instance to operate with the environment variables from the .env file
 func NewConnection(config *Config) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
